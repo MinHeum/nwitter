@@ -1,7 +1,7 @@
-import {React, useState} from "react";
+import React, { useState } from "react";
 import { dbService, storageService } from "fBase";
 
-const Nweet = ({nweetObj, isOwner}) => {
+const Nweet = ({ nweetObj, isOwner }) => {
     const [editing, setEditing] = useState(false);
     const [newNweet, setNewNweet] = useState(nweetObj.text);
 
@@ -26,7 +26,7 @@ const Nweet = ({nweetObj, isOwner}) => {
             text:newNweet,
         });
         setEditing(false);
-    }
+    };
 
     const toggleEditing = () => setEditing(prev => !prev);
     return (

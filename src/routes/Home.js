@@ -3,10 +3,10 @@ import { dbService, storageService } from "fBase";
 import Nweet from "components/Nweet";
 import { v4 as uuidv4 } from 'uuid';
 
-const Home =  ({userObj}) => {
+const Home =  ({ userObj }) => {
     const [nweet, setNweet] = useState("");
     const [nweets, setNweets] = useState([]);
-    const [attachment, setAttachment] = useState();
+    const [attachment, setAttachment] = useState("");
     useEffect(() => {
         dbService.collection("nweets").onSnapshot((snapshot) => {
             const nweetArray = snapshot.docs.map((doc) => ({
@@ -19,10 +19,10 @@ const Home =  ({userObj}) => {
         event.preventDefault();
         let attachmentUrl = "";
         if (attachment !== "") {
-            const fileRef = storageService
+            const attachmentRef = storageService
                             .ref()
                             .child(`${userObj.uid}/${uuidv4()}`);
-            const response = await fileRef.putString(attachment, "data_url");
+            const response = await attachmentRef.putString(attachment, "data_url");
             attachmentUrl = await response.ref.getDownloadURL();
         }
         const nweetObj = {
@@ -32,18 +32,18 @@ const Home =  ({userObj}) => {
             attachmentUrl,
         };
         await dbService.collection("nweets").add(nweetObj);
-        setNweet();
-        setAttachment();
+        setNweet("");
+        setAttachment("");
     };
     const onChange = (event) => {
         const {
-            target: { value }
+            target: { value },
         } = event;
         setNweet(value);
     };
     const onFileChange = (event) => {
         const {
-            target:{files}
+            target: { files },
         } = event;
         const theFile = files[0];
         const reader = new FileReader();
@@ -51,10 +51,10 @@ const Home =  ({userObj}) => {
             const {
                 currentTarget: { result },
             } = finishedEvent;
-            setAttachment(result)
-        }
+            setAttachment(result);
+        };
         reader.readAsDataURL(theFile);
-    }
+    };
     const onClearAttachment = () => setAttachment(null);
     return (
         <div>
@@ -78,6 +78,7 @@ const Home =  ({userObj}) => {
                         src={attachment}
                         width="50px"
                         height="50px"
+                        alt="pic"
                         />
                         <button onClick={onClearAttachment}>Clear</button>
                     </div>
@@ -85,7 +86,11 @@ const Home =  ({userObj}) => {
             </form>
             <div>
                 {nweets.map((nweet) => (
-                    <Nweet key={nweet.id} nweetObj={nweet} isOwner={nweet.creatorId === userObj.uid} />
+                    <Nweet 
+                        key={nweet.id}
+                        nweetObj={nweet}
+                        isOwner={nweet.creatorId === userObj.uid}
+                    />
                 ))}
            </div>
         </div>
