@@ -8,7 +8,7 @@ const Navigation = ( {userObj} ) => (
     <nav>
         <ul style={{ display: "flex", justifyContent: "center", marginTop: 50 }}>
             <li>
-                <Link to="/" style={{ marginRight: 10 }}>
+                <Link to="/"  className="nwitterLink">
                     <FontAwesomeIcon icon={faTwitter} color={"#04AAFF"} size="2x" />
                 </Link>            
             </li>

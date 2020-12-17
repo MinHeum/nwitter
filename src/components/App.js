@@ -34,7 +34,7 @@ function App() {
             refreshUser = {refreshUser}
             isLoggedIn = {Boolean(userObj)}
             userObj={userObj}/>) : "Initializing..."}
-    <footer>
+    <footer className="footer">
       &copy; {new Date().getFullYear()} Nwitter
     </footer>
   </>

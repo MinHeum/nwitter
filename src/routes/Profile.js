@@ -28,6 +28,9 @@ const Profile = ({refreshUser, userObj }) => {
     
     return (
         <div className="container">
+            <div style={{padding: 3,}}>
+                Change Profile Name
+            </div>
             <form onSubmit={onSubmit} className="profileForm">
                 <input 
                     onChange={onChange}
